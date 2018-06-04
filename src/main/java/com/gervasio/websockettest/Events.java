@@ -24,18 +24,16 @@ public class Events {
 			client.sendEvent(EnumEvents.SEND_MESSAGE.toString(), data);
 		});
 		
-//		this.server.addConnectListener((client) -> {
-//			clients.add(client);
-//			client.sendEvent(EnumEvents.SEND_MESSAGE.toString(), "NANMESPACE:");
-//		});
-		
-		this.server.addConnectListener(new ConnectListener() {
-            @Override
-            public void onConnect(SocketIOClient client) {
-                clients.add(client);
-                client.sendEvent(EnumEvents.SEND_MESSAGE.toString(), client.toString());
-            }
-        });
+		this.server.addConnectListener((client) -> {
+			String uuid = client.getSessionId().toString();
+			String clientIp = client.getRemoteAddress().toString();
+			String clientNamespace = client.getNamespace().getName();
+			System.out.println("UUID: " + client.getSessionId().toString());
+			System.out.println("Remote IP: " + clientIp);
+			System.out.println("Namespace: " + clientNamespace);
+			clients.add(client);
+			client.sendEvent(EnumEvents.SEND_MESSAGE.toString(), "NANMESPACE:");
+		});
 		
 	}
 	
